@@ -1,20 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
-import usersData from './UsersData'
-import AddUserModal from './AddUserModal';
+import usersData from '../Users/UsersData'
 
-function UserRow(props) {
+function BookRow(props) {
   const user = props.user
   const userLink = `/users/${user.id}`
-  const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
-            'primary'
-  }
 
   return (
     <tr key={user.id.toString()}>
@@ -22,13 +14,12 @@ function UserRow(props) {
       <td><Link to={userLink}>{user.name}</Link></td>
       <td>{user.registered}</td>
       <td>{user.role}</td>
-      <td><Link to={userLink}><Badge color={getBadge(user.status)}>{user.status}</Badge></Link></td>
+      <td><Link to={userLink}>{user.status}</Link></td>
     </tr>
   )
 }
 
-const Users = () => {
-    const [show, setShow] = useState(false)
+const Books = () => {
     const userList = usersData.filter((user) => user.id < 10)
 
     return (
@@ -37,13 +28,9 @@ const Users = () => {
           <Col xl={12}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
+                <i className="fa fa-align-justify"></i> Books <small className="text-muted">example</small>
               </CardHeader>
               <CardBody>
-                <div onClick={() => {setShow(true)}} className="btn-row">
-                  
-                  <div className="btn-add">Thêm User</div>
-                </div>
                 <Table responsive hover>
                   <thead>
                     <tr>
@@ -56,7 +43,7 @@ const Users = () => {
                   </thead>
                   <tbody>
                     {userList.map((user, index) =>
-                      <UserRow key={index} user={user}/>
+                      <BookRow key={index} user={user}/>
                     )}
                   </tbody>
                 </Table>
@@ -64,9 +51,8 @@ const Users = () => {
             </Card>
           </Col>
         </Row>
-        <AddUserModal show={show} setShow={setShow}></AddUserModal>
       </div>
     )
 }
 
-export default Users;
+export default Books;
