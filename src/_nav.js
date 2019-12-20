@@ -38,7 +38,7 @@ export default {
       children: [
         {
           name: 'Books',
-          url: '/base/breadcrumbs',
+          url: '/books',
           icon: 'icon-book-open',
         },
         {
