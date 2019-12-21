@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Modal, Form, Input, Select, Icon } from 'antd';
+import axios from 'axios';
+import { Button, Modal, Form, Input, Icon } from 'antd';
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -7,10 +8,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
-      const { Option } = Select;
-      function handleChange(value) {
-        console.log(`selected ${value}`);
-      }
+
       return (
         <Modal
           visible={visible}
@@ -23,61 +21,23 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
             <Form.Item label="Email">
               {getFieldDecorator('email', {
                 rules: [{ required: true, message: 'Please input the name of book!' }],
-              })(<Input  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
+              })(<Input placeholder="Email"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
             <Form.Item label="Password">
-              {getFieldDecorator('password')(<Input type="password" 
+              {getFieldDecorator('password')(<Input type="password" placeholder="Password"
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               />)}
             </Form.Item>
             <Form.Item label="Confirm Password">
-              {getFieldDecorator('cfpassword')(<Input type="password" 
+              {getFieldDecorator('cfpassword')(<Input type="password" placeholder="Confirm Password"
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} 
               />)}
             </Form.Item>
             <Form.Item label="First Name">
-              {getFieldDecorator('first_name')(<Input  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
+              {getFieldDecorator('first_name')(<Input placeholder="Firt Name"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
             <Form.Item label="Last Name">
-              {getFieldDecorator('last_name')(<Input  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
-            </Form.Item>
-            <Form.Item label="Address">
-              {getFieldDecorator('address')(<Input prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
-            </Form.Item>
-            <Form.Item label="Categories">
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="select one country"
-                defaultValue={['china']}
-                onChange={handleChange}
-                optionLabelProp="label"
-              >
-                <Option value="china" label="China">
-                  <span role="img" aria-label="China">
-                    🇨🇳
-                  </span>
-                  China (中国)
-                </Option>
-                <Option value="usa" label="USA">
-                  <span role="img" aria-label="USA">
-                    🇺🇸
-                  </span>
-                  USA (美国)
-                </Option>
-                <Option value="japan" label="Japan">
-                  <span role="img" aria-label="Japan">
-                    🇯🇵
-                  </span>
-                  Japan (日本)
-                </Option>
-                <Option value="korea" label="Korea">
-                  <span role="img" aria-label="Korea">
-                    🇰🇷
-                  </span>
-                  Korea (韩国)
-                </Option>
-              </Select>
+              {getFieldDecorator('last_name')(<Input placeholder="Last Name"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
           </Form>
         </Modal>
@@ -87,6 +47,21 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 );
 
 class AddAntDesign extends React.Component {
+  data = {
+    "email": "4@gmail.com",
+    "password": "12345678",
+    "passwordConfirm": "12345678",
+    "first_name": "ly",
+    "last_name": "nghia"
+  };
+  componentDidMount() {
+    axios.post(
+      'http://localhost:5000/api/auth/signup',
+      { data: this.data},
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
   state = {
     visible: false,
   };

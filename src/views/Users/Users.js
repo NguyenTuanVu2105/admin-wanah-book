@@ -1,37 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import { Table, Tag, Button } from 'antd';
+import { Table, Button } from 'antd';
 import { Card, CardBody, CardHeader, Col, Row} from 'reactstrap';
 
 import AddAntDesign from './AddAntDesign';
 
 const { Column } = Table;
-const data = [
-  {
-    id: 1,
-    email: 'test@gmail.com',
-    firstName: 'John',
-    lastName: 'Brown',
-    address: 'New York No. 1 Lake Park asdasdasd',
-    category: ['Kinh dị', 'Hành động', 'Tâm lý', 'Hài hước'],
-  },
-  {
-    id: 2,
-    email: 'test2@gmail.com',
-    firstName: 'Jim',
-    lastName: 'Green',
-    address: 'London No. 1 Lake Park asdasdasdasdasd',
-    category: ['loser'],
-  },
-  {
-    id: 3,
-    email: 'test3@gmail.com',
-    firstName: 'Joe',
-    lastName: 'Black',
-    address: 'Sidney No. 1 Lake Park sdgfgdfgsgdfsg',
-    category: ['cool', 'teacher'],  
-  },
-];
 
 export default class Users extends React.Component {
 
@@ -57,28 +31,12 @@ export default class Users extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <AddAntDesign></AddAntDesign>
-                  <ul>
-                    { this.state.persons.map(person => <li>{person.first_name}</li>)}
-                  </ul>
-                  <Table dataSource={data}>
-                    <Column title="First Name" dataIndex="firstName" id="firstName" />
-                    <Column title="Last Name" dataIndex="lastName" id="lastName" />
-                    <Column title="Address" width="30%" dataIndex="address" id="address" />
-                    <Column
-                      title="Category"
-                      dataIndex="category"
-                      id="category"
-                      width="30%"
-                      render={category => (
-                        <span>
-                          {category.map(tag => (
-                            <Tag color="blue" id={tag}>
-                              {tag}
-                            </Tag>
-                          ))}
-                        </span>
-                      )}
-                    />
+                  <Table dataSource={this.state.persons}>
+                    <Column title="Email" dataIndex="email" id="email" />
+                    <Column title="First Name" dataIndex="profile.first_name" id="first_name" />
+                    <Column title="Last Name" dataIndex="profile.last_name" id="last_name" />
+                    <Column title="Description" dataIndex="profile.description" id="description" />
+                    <Column title="Address" width="30%" dataIndex="profile.address_detail" id="address_detail" />
                     <Column
                       title="Action"
                       id="action"
