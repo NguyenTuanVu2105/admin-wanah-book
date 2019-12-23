@@ -13,11 +13,14 @@ export default class Users extends React.Component {
     persons: []
   }
 
-  async componentDidMount() {
+  fetchData = async () => {
     await axios.get(`http://localhost:5000/api/user/all?limit=10&page=1`).then(res => {
       const persons = res.data;
       this.setState({persons});
     })
+  }
+  componentDidMount() {
+    this.fetchData()
   }
 
   render() {
@@ -30,7 +33,7 @@ export default class Users extends React.Component {
                   <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
                 </CardHeader>
                 <CardBody>
-                  <AddAntDesign></AddAntDesign>
+                  <AddAntDesign fetchData={this.fetchData}></AddAntDesign>
                   <Table dataSource={this.state.persons}>
                     <Column title="ID" dataIndex="id" id="id" />
                     <Column title="Email" dataIndex="email" id="email" />

@@ -12,27 +12,16 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
       return (
         <Modal
           visible={visible}
-          title="Create a new user"
+          title="Create a new category"
           okText ='Create'
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical">
-            <Form.Item label="Email">
-              {getFieldDecorator('email', {
-                rules: [{ required: true, message: 'Please input the email of new user!' }],
-              })(<Input placeholder="Email"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
-            </Form.Item>
-            <Form.Item label="Password">
-              {getFieldDecorator('password')(<Input type="password" placeholder="Password"
-                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              />)}
-            </Form.Item>
-            <Form.Item label="First Name">
-              {getFieldDecorator('first_name')(<Input placeholder="Firt Name"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
-            </Form.Item>
-            <Form.Item label="Last Name">
-              {getFieldDecorator('last_name')(<Input placeholder="Last Name"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
+            <Form.Item label="Category Name">
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: 'Please input the name of book!' }],
+              })(<Input placeholder="Category Name"  prefix={<Icon type="book" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
           </Form>
         </Modal>
@@ -49,8 +38,8 @@ class AddAntDesign extends React.Component {
 
   submitData = async (values) => {
     await axios.post(
-        'http://localhost:5000/api/auth/signup',
-        {...values, passwordConfirm: values.password},
+        'http://localhost:5000/api/admin/category/add',
+        {...values, star: 0},
       )
       this.props.fetchData();
   }
@@ -71,7 +60,6 @@ class AddAntDesign extends React.Component {
       }
 
       console.log('Received values of form: ', values);
-      
       this.submitData(values);
 
       form.resetFields();
@@ -87,7 +75,7 @@ class AddAntDesign extends React.Component {
     return (
       <div>
         <Button type="primary" style={{marginBottom: '20px'}} onClick={this.showModal}>
-          Add User
+          Add Category
         </Button>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}

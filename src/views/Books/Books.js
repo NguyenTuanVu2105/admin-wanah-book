@@ -40,10 +40,11 @@ export default class Users extends React.Component {
                     <Column
                       title="Action"
                       id="action"
-                      width="10%"
+                      width="15%"
                       render={(text, record) => (
                         <span>
                           <Button>Edit</Button>
+                          <Button>Delete</Button>
                         </span>
                       )}
                     />
