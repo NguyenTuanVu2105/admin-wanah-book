@@ -13,24 +13,19 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         <Modal
           visible={visible}
           title="Create a new book"
-          okText="Create"
+          okText ='Create'
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical">
             <Form.Item label="Email">
               {getFieldDecorator('email', {
-                rules: [{ required: true, message: 'Please input the name of book!' }],
+                rules: [{ required: true, message: 'Please input the email of new user!' }],
               })(<Input placeholder="Email"  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
             <Form.Item label="Password">
               {getFieldDecorator('password')(<Input type="password" placeholder="Password"
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              />)}
-            </Form.Item>
-            <Form.Item label="Confirm Password">
-              {getFieldDecorator('cfpassword')(<Input type="password" placeholder="Confirm Password"
-                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} 
               />)}
             </Form.Item>
             <Form.Item label="First Name">
@@ -47,20 +42,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 );
 
 class AddAntDesign extends React.Component {
-  data = {
-    "email": "4@gmail.com",
-    "password": "12345678",
-    "passwordConfirm": "12345678",
-    "first_name": "ly",
-    "last_name": "nghia"
-  };
-  componentDidMount() {
-    axios.post(
-      'http://localhost:5000/api/auth/signup',
-      { data: this.data},
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-  }
 
   state = {
     visible: false,
@@ -82,6 +63,10 @@ class AddAntDesign extends React.Component {
       }
 
       console.log('Received values of form: ', values);
+      axios.post(
+        'http://localhost:5000/api/auth/signup',
+        {...values, passwordConfirm: values.password},
+      )
       form.resetFields();
       this.setState({ visible: false });
     });

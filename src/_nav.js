@@ -42,13 +42,13 @@ export default {
           icon: 'icon-book-open',
         },
         {
-          name: 'Publishers',
-          url: '/base/cards',
+          name: 'Categories',
+          url: '/categories',
           icon: 'icon-notebook',
         },
         {
           name: 'Authors',
-          url: '/base/carousels',
+          url: '/authors',
           icon: 'icon-user-female',
         },
       ],

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Modal, Form, Input, Select } from 'antd';
+import axios from 'axios';
+import { Button, Modal, Form, Input, Icon } from 'antd';
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -7,99 +8,28 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     render() {
       const { visible, onCancel, onCreate, form } = this.props;
       const { getFieldDecorator } = form;
-      const { Option } = Select;
-      function handleChange(value) {
-        console.log(`selected ${value}`);
-      }
+
       return (
         <Modal
           visible={visible}
           title="Create a new book"
-          okText="Create"
+          okText ='Create'
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical">
-            <Form.Item label="Name">
+            <Form.Item label="Book Name">
               {getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Please input the name of book!' }],
-              })(<Input />)}
+              })(<Input placeholder="Book Name"  prefix={<Icon type="book" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
             <Form.Item label="Publisher">
-              {getFieldDecorator('publisher')(<Input type="textarea" />)}
+              {getFieldDecorator('publisher')(<Input placeholder="Publisher"
+                prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              />)}
             </Form.Item>
             <Form.Item label="Description">
-              {getFieldDecorator('description')(<Input type="textarea" />)}
-            </Form.Item>
-            <Form.Item label="Authors">
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="select one country"
-                defaultValue={['china']}
-                onChange={handleChange}
-                optionLabelProp="label"
-              >
-                <Option value="china" label="China">
-                  <span role="img" aria-label="China">
-                    🇨🇳
-                  </span>
-                  China (中国)
-                </Option>
-                <Option value="usa" label="USA">
-                  <span role="img" aria-label="USA">
-                    🇺🇸
-                  </span>
-                  USA (美国)
-                </Option>
-                <Option value="japan" label="Japan">
-                  <span role="img" aria-label="Japan">
-                    🇯🇵
-                  </span>
-                  Japan (日本)
-                </Option>
-                <Option value="korea" label="Korea">
-                  <span role="img" aria-label="Korea">
-                    🇰🇷
-                  </span>
-                  Korea (韩国)
-                </Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Categories">
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="select one country"
-                defaultValue={['china']}
-                onChange={handleChange}
-                optionLabelProp="label"
-              >
-                <Option value="china" label="China">
-                  <span role="img" aria-label="China">
-                    🇨🇳
-                  </span>
-                  China (中国)
-                </Option>
-                <Option value="usa" label="USA">
-                  <span role="img" aria-label="USA">
-                    🇺🇸
-                  </span>
-                  USA (美国)
-                </Option>
-                <Option value="japan" label="Japan">
-                  <span role="img" aria-label="Japan">
-                    🇯🇵
-                  </span>
-                  Japan (日本)
-                </Option>
-                <Option value="korea" label="Korea">
-                  <span role="img" aria-label="Korea">
-                    🇰🇷
-                  </span>
-                  Korea (韩国)
-                </Option>
-              </Select>
+              {getFieldDecorator('description')(<Input placeholder="Description"  prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />} />)}
             </Form.Item>
           </Form>
         </Modal>
@@ -109,6 +39,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 );
 
 class AddAntDesign extends React.Component {
+
   state = {
     visible: false,
   };
@@ -129,6 +60,10 @@ class AddAntDesign extends React.Component {
       }
 
       console.log('Received values of form: ', values);
+      axios.post(
+        'http://localhost:5000/api/admin/books/add',
+        {...values, star: 0},
+      )
       form.resetFields();
       this.setState({ visible: false });
     });
